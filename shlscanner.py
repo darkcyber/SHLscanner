@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
-# Sublist3r v1.0
-# By Ahmed Aboul-Ela - twitter.com/aboul3la
+# SHLscanner v1.0-alpha
+# By SHL RnD Team
+# based on Sublist3r - https://github.com/aboul3la/Sublist3r.git
 
 # modules in standard library
 import re
@@ -73,13 +74,14 @@ def no_color():
 
 def banner():
     print("""%s
-                 ____        _     _ _     _   _____
-                / ___| _   _| |__ | (_)___| |_|___ / _ __
-                \___ \| | | | '_ \| | / __| __| |_ \| '__|
-                 ___) | |_| | |_) | | \__ \ |_ ___) | |
-                |____/ \__,_|_.__/|_|_|___/\__|____/|_|%s%s
+ ____  _   _ _
+/ ___|| | | | |    ___  ___ __ _ _ __  _ __   ___ _ __
+\___ \| |_| | |   / __|/ __/ _` | '_ \| '_ \ / _ \ '__|
+___) |  _  | |___\__ \ (_| (_| | | | | | | |  __/ |
+|____/|_| |_|_____|___/\___\__,_|_| |_|_| |_|\___|_|%s%s
 
-                # Coded By Ahmed Aboul-Ela - @aboul3la
+# Subdomain scanner based on Sublist3r
+# Coded by SHL RnD Team
     """ % (R, W, Y))
 
 
