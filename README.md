@@ -1,30 +1,30 @@
-## About Sublist3r 
+## About SHLscanner 
 
-Sublist3r is a python tool designed to enumerate subdomains of websites using OSINT. It helps penetration testers and bug hunters collect and gather subdomains for the domain they are targeting. Sublist3r enumerates subdomains using many search engines such as Google, Yahoo, Bing, Baidu and Ask. Sublist3r also enumerates subdomains using Netcraft, Virustotal, ThreatCrowd, DNSdumpster and ReverseDNS.
+SHLscanner is a python tool based on [Sublist3r](https://github.com/aboul3la/Sublist3r) designed to enumerate subdomains of websites using OSINT. It helps penetration testers and bug hunters collect and gather subdomains for the domain they are targeting. SHLscanner enumerates subdomains using many search engines and many API endpoint for better results.
 
-[subbrute](https://github.com/TheRook/subbrute) was integrated with Sublist3r to increase the possibility of finding more subdomains using bruteforce with an improved wordlist. The credit goes to TheRook who is the author of subbrute.
+[subbrute](https://github.com/TheRook/subbrute) was integrated with SHLscanner to increase the possibility of finding more subdomains using bruteforce with an improved wordlist. The credit goes to TheRook who is the author of subbrute.
 
 ## Screenshots
 
-![Sublist3r](http://www.secgeek.net/images/Sublist3r.png "Sublist3r in action")
+![SHLscanner](# "SHLscanner in action")
 
 
 ## Installation
 
 ```
-git clone https://github.com/aboul3la/Sublist3r.git
+git clone https://github.com/darkcyber/SHL-Subdomain-Finder.git
 ```
 
 ## Recommended Python Version:
 
-Sublist3r currently supports **Python 2** and **Python 3**.
+SHLscanner currently supports **Python 2** and **Python 3**.
 
 * The recommended version for Python 2 is **2.7.x**
 * The recommended version for Python 3 is **3.4.x**
 
 ## Dependencies:
 
-Sublist3r depends on the `requests`, `dnspython` and `argparse` python modules.
+SHLscanner depends on the `requests`, `dnspython` and `argparse` python modules.
 
 These dependencies can be installed using the requirements file:
 
@@ -117,67 +117,75 @@ Short Form    | Long Form     | Description
 
 * To list all the basic options and switches use -h switch:
 
-```python sublist3r.py -h```
+```python shlscanner.py -h```
 
 * To enumerate subdomains of specific domain:
 
-``python sublist3r.py -d example.com``
+``python shlscanner.py -d example.com``
 
 * To enumerate subdomains of specific domain and show only subdomains which have open ports 80 and 443 :
 
-``python sublist3r.py -d example.com -p 80,443``
+``python shlscanner.py -d example.com -p 80,443``
 
 * To enumerate subdomains of specific domain and show the results in realtime:
 
-``python sublist3r.py -v -d example.com``
+``python shlscanner.py -v -d example.com``
 
 * To enumerate subdomains and enable the bruteforce module:
 
-``python sublist3r.py -b -d example.com``
+``python shlscanner.py -b -d example.com``
 
 * To enumerate subdomains and use specific engines such Google, Yahoo and Virustotal engines
 
-``python sublist3r.py -e google,yahoo,virustotal -d example.com``
+``python shlscanner.py -e google,yahoo,virustotal -d example.com``
 
 
-## Using Sublist3r as a module in your python scripts
+## Using SHLscanner as a module in your python scripts
 
 **Example**
 
 ```python
-import sublist3r 
-subdomains = sublist3r.main(domain, no_threads, savefile, ports, silent, verbose, enable_bruteforce, engines)
+import shlscanner 
+subdomains = shlscanner.main(domain, no_threads, savefile, ports, silent, verbose, enable_bruteforce, engines)
 ```
-The main function will return a set of unique subdomains found by Sublist3r
+The main function will return a set of unique subdomains found by SHLscanner
 
 **Function Usage:**
 * **domain**: The domain you want to enumerate subdomains of.
 * **savefile**: save the output into text file.
 * **ports**: specify a comma-sperated list of the tcp ports to scan.
-* **silent**: set sublist3r to work in silent mode during the execution (helpful when you don't need a lot of noise).
+* **silent**: set shlscanner to work in silent mode during the execution (helpful when you don't need a lot of noise).
 * **verbose**: display the found subdomains in real time.
 * **enable_bruteforce**: enable the bruteforce module.
 * **engines**: (Optional) to choose specific engines.
 
 Example to enumerate subdomains of Yahoo.com:
 ```python
-import sublist3r 
-subdomains = sublist3r.main('yahoo.com', 40, 'yahoo_subdomains.txt', ports= None, silent=False, verbose= False, enable_bruteforce= False, engines=None)
+import shlscanner 
+subdomains = shlscanner.main('yahoo.com', 40, 'yahoo_subdomains.txt', ports= None, silent=False, verbose= False, enable_bruteforce= False, engines=None)
 ```
 
 ## License
 
-Sublist3r is licensed under the GNU GPL license. take a look at the [LICENSE](https://github.com/aboul3la/Sublist3r/blob/master/LICENSE) for more information.
+SHLscanner is licensed under the GNU GPL license. take a look at the [LICENSE](https://github.com/darkcyber/SHL-Subdomain-Finder/blob/master/LICENSE) for more information.
 
 
 ## Credits
 
+* [Ahmed Aboul-Ela](https://github.com/aboul3la) - The heart of this tool **shlscanner**. 
 * [TheRook](https://github.com/TheRook) - The bruteforce module was based on his script **subbrute**. 
 * [Bitquark](https://github.com/bitquark) - The Subbrute's wordlist was based on his research **dnspop**. 
 
 ## Thanks
 
-* Special Thanks to [Ibrahim Mosaad](https://twitter.com/ibrahim_mosaad) for his great contributions that helped in improving the tool.
+* Special Thanks to [Ahmed Aboul-Ela](https://twitter.com/aboul3la) for making great tool named Sublist3r 
+
+* Special Thanks to [Ibrahim Mosaad](https://twitter.com/ibrahim_mosaad) for his great contributions that helped in improving the Sublist3r tool.
+
+## Maintainer
+* Afif Hidayatullah
+* Noverdi Ramadhan
+* Ruzfi
 
 ## Version
-**Current version is 1.0**
+**Current version is 1.0-alpha**
