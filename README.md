@@ -178,9 +178,7 @@ SHLscanner is licensed under the GNU GPL license. take a look at the [LICENSE](h
 
 ## Thanks
 
-* Special Thanks to [Ahmed Aboul-Ela](https://twitter.com/aboul3la) for making great tool named Sublist3r 
-
-* Special Thanks to [Ibrahim Mosaad](https://twitter.com/ibrahim_mosaad) for his great contributions that helped in improving the Sublist3r tool.
+* Special Thanks to [Ahmed Aboul-Ela](https://twitter.com/aboul3la) for making great tool named Sublist3r and also Thanks to [Ibrahim Mosaad](https://twitter.com/ibrahim_mosaad) for his great contributions that helped in improving the Sublist3r tool.
 
 ## Maintainer
 * Afif Hidayatullah
