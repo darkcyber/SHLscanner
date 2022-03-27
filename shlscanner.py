@@ -77,7 +77,7 @@ def banner():
  ____  _   _ _
 / ___|| | | | |    ___  ___ __ _ _ __  _ __   ___ _ __
 \___ \| |_| | |   / __|/ __/ _` | '_ \| '_ \ / _ \ '__|
-___) |  _  | |___\__ \ (_| (_| | | | | | | |  __/ |
+ ___) |  _  | |___\__ \ (_| (_| | | | | | | |  __/ |
 |____/|_| |_|_____|___/\___\__,_|_| |_|_| |_|\___|_|%s%s
 
 # Subdomain scanner based on Sublist3r
@@ -675,55 +675,55 @@ class DNSdumpster(enumratorBaseThreaded):
         return links
 
 
-class Virustotal(enumratorBaseThreaded):
+class YandexEnum(enumratorBaseThreaded):
     def __init__(self, domain, subdomains=None, q=None, silent=False, verbose=True):
         subdomains = subdomains or []
-        base_url = 'https://www.virustotal.com/ui/domains/{domain}/subdomains'
-        self.engine_name = "Virustotal"
+        base_url = 'https://yandex.ru/search/?lr=10574&text={query}&p={page_no}&filter=0'
+        self.engine_name = "Yandex"
+        self.MAX_DOMAINS = 11
+        self.MAX_PAGES = 200
+        super(YandexEnum, self).__init__(base_url, self.engine_name, domain, subdomains, q=q, silent=silent, verbose=verbose)
         self.q = q
-        super(Virustotal, self).__init__(base_url, self.engine_name, domain, subdomains, q=q, silent=silent, verbose=verbose)
-        self.url = self.base_url.format(domain=self.domain)
         return
 
     # the main send_req need to be rewritten
-    def send_req(self, url):
-        try:
-            resp = self.session.get(url, headers=self.headers, timeout=self.timeout)
-        except Exception as e:
-            self.print_(e)
-            resp = None
-
-        return self.get_response(resp)
-
-    # once the send_req is rewritten we don't need to call this function, the stock one should be ok
-    def enumerate(self):
-        while self.url != '':
-            resp = self.send_req(self.url)
-            resp = json.loads(resp)
-            if 'error' in resp:
-                self.print_(R + "[!] Error: Virustotal probably now is blocking our requests" + W)
-                break
-            if 'links' in resp and 'next' in resp['links']:
-                self.url = resp['links']['next']
-            else:
-                self.url = ''
-            self.extract_domains(resp)
-        return self.subdomains
-
     def extract_domains(self, resp):
-        #resp is already parsed as json
+        links_list = list()
+        link_regx = re.compile('<cite.*?>(.*?)<\/cite>')
         try:
-            for i in resp['data']:
-                if i['type'] == 'domain':
-                    subdomain = i['id']
-                    if not subdomain.endswith(self.domain):
-                        continue
-                    if subdomain not in self.subdomains and subdomain != self.domain:
-                        if self.verbose:
-                            self.print_("%s%s: %s%s" % (R, self.engine_name, W, subdomain))
-                        self.subdomains.append(subdomain.strip())
+            links_list = link_regx.findall(resp)
+            for link in links_list:
+                link = re.sub('<span.*>', '', link)
+                if not link.startswith('https'):
+                    link = "https://" + link
+                subdomain = urlparse.urlparse(link).netloc
+                if subdomain and subdomain not in self.subdomains and subdomain != self.domain:
+                    if self.verbose:
+                        self.print_("%s%s: %s%s" % (R, self.engine_name, W, subdomain))
+                    self.subdomains.append(subdomain.strip())
         except Exception:
             pass
+        return links_list
+
+    def check_response_errors(self, resp):
+        if (type(resp) is str or type(resp) is unicode) and 'Our systems have detected unusual traffic' in resp:
+            self.print_(R + "[!] Error: Yandex probably now is blocking our requests" + W)
+            self.print_(R + "[~] Finished now the Yandex Enumeration ..." + W)
+            return False
+        return True
+
+    def should_sleep(self):
+        time.sleep(5)
+        return
+
+    def generate_query(self):
+        if self.subdomains:
+            fmt = 'site:{domain} -www.{domain} -{found}'
+            found = ' -'.join(self.subdomains[:self.MAX_DOMAINS - 2])
+            query = fmt.format(domain=self.domain, found=found)
+        else:
+            query = "site:{domain} -www.{domain}".format(domain=self.domain)
+        return query
 
 
 class ThreatCrowd(enumratorBaseThreaded):
@@ -921,7 +921,7 @@ def main(domain, threads, savefile, ports, silent, verbose, enable_bruteforce, e
                          'ask': AskEnum,
                          'netcraft': NetcraftEnum,
                          'dnsdumpster': DNSdumpster,
-                         'virustotal': Virustotal,
+                         'yandex': YandexEnum,
                          'threatcrowd': ThreatCrowd,
                          'ssl': CrtSearch,
                          'passivedns': PassiveDNS
@@ -932,7 +932,7 @@ def main(domain, threads, savefile, ports, silent, verbose, enable_bruteforce, e
     if engines is None:
         chosenEnums = [
             BaiduEnum, YahooEnum, GoogleEnum, BingEnum, AskEnum,
-            NetcraftEnum, DNSdumpster, Virustotal, ThreatCrowd,
+            NetcraftEnum, DNSdumpster, YandexEnum, ThreatCrowd,
             CrtSearch, PassiveDNS
         ]
     else:
