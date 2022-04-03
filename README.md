@@ -6,7 +6,7 @@ SHLscanner is a python tool based on [Sublist3r](https://github.com/aboul3la/Sub
 
 ## Screenshots
 
-![SHLscanner](# "SHLscanner in action")
+![SHLscanner](screenshot.png "SHLscanner in action")
 
 
 ## Installation
