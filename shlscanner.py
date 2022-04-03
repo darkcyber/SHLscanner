@@ -1007,14 +1007,15 @@ def main(domain, threads, savefile, ports, silent, verbose, enable_bruteforce, e
     if enable_bruteforce:
         if not silent:
             print(G + "[-] Starting bruteforce module now using subbrute.." + W)
-        record_type = False
+        record_type = "ANY"
         path_to_file = os.path.dirname(os.path.realpath(__file__))
         subs = os.path.join(path_to_file, 'subbrute', 'names.txt')
         resolvers = os.path.join(path_to_file, 'subbrute', 'resolvers.txt')
         process_count = threads
+        print_data = False
         output = False
         json_output = False
-        bruteforce_list = subbrute.print_target(parsed_domain.netloc, record_type, subs, resolvers, process_count, output, json_output, search_list, verbose)
+        bruteforce_list = subbrute.print_target(parsed_domain.netloc, record_type, subs, resolvers, process_count, print_data, output, json_output)
 
     subdomains = search_list.union(bruteforce_list)
 
